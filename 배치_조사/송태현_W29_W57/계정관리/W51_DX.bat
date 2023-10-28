@@ -1,20 +1,21 @@
-@ECHO OFF
- 
-ECHO â–  ê¸°ì¤€
-ECHO ì–‘í˜¸ : "ìµœì†Œ ì•”í˜¸ ì‚¬ìš© ê¸°ê°„"ì´ 0ë³´ë‹¤ í° ê°’ìœ¼ë¡œ ì„¤ì •ë˜ì–´ ìžˆëŠ” ê²½ìš°
-ECHO ì·¨ì•½ : "ìµœì†Œ ì•”í˜¸ ì‚¬ìš© ê¸°ê°„"ì´ 0ìœ¼ë¡œ ì„¤ì •ë˜ì–´ ìžˆëŠ” ê²½ìš°
- 
-ECHO.
-ECHO â–  í˜„í™©
-secedit /EXPORT /CFG LocalSecurityPolicy.txt
-TYPE LocalSecurityPolicy.txt | find /i "MinimumPasswordAge"
- 
-ECHO.
-ECHO â–  ê²°ê³¼
-TYPE LocalSecurityPolicy.txt | find "MinimumPasswordAge =" > passwd.txt
-FOR /f "tokens=1-3" %%a IN (passwd.txt) DO SET passwd_minage=%%c
-IF %passwd_minage% GEQ 1 ECHO ì–‘í˜¸
-IF NOT %passwd_minage% GEQ 1 ECHO ì·¨ì•½
- 
-DEL LocalSecurityPolicy.txt
-DEL passwd.txt
+@echo off
+
+echo W-51 START
+echo.
+echo [W51] ÆÐ½º¿öµå ÃÖ¼Ò »ç¿ë ±â°£
+echo.
+echo ¡á Áø´Ü ÇöÈ²
+
+for /f "tokens=3" %%A in ('find /i "MinimumPasswordAge" LocalSecurityPolicy.txt') do (
+    set "MinimumPasswordAge=%%A"
+)
+
+
+if %MinimumPasswordAge% equ 0 (
+	echo ¡á °á°ú: À§Çè
+	echo ¡á Á¶Ä¡ ¹æ¾È 
+	echo Step 1. ½ÃÀÛ - ½ÇÇà - SECPOL.MSC - °èÁ¤ Á¤Ã¥ - ¾ÏÈ£Á¤Ã¥
+	echo Step 2.  "ÃÖ¼Ò ¾ÏÈ£ »ç¿ë ±â°£"¿¡¼­ "»ç¿ë ±â°£"À» "1ÀÏ"·Î ¼³Á¤
+) else (
+	echo ¡á °á°ú: ¾ÈÀü
+)

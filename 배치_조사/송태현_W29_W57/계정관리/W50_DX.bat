@@ -1,20 +1,21 @@
-@ECHO OFF
- 
-ECHO â–  ê¸°ì¤€
-ECHO ì–‘í˜¸ : "ìµœëŒ€ ì•”í˜¸ ì‚¬ìš© ê¸°ê°„"ì´ â€œ90ì¼â€ ì´í•˜ë¡œ ì„¤ì •ë˜ì–´ ìžˆëŠ” ê²½ìš°
-ECHO ì·¨ì•½ : "ìµœëŒ€ ì•”í˜¸ ì‚¬ìš© ê¸°ê°„â€ì´ ì„¤ì •ë˜ì§€ ì•Šì•˜ê±°ë‚˜ â€œ90ì¼â€ì„ ì´ˆê³¼í•˜ëŠ” ê°’ìœ¼ë¡œ ì„¤ì •ëœ ê²½ìš°
- 
-ECHO.
-ECHO â–  í˜„í™©
-secedit /EXPORT /CFG LocalSecurityPolicy.txt
-TYPE LocalSecurityPolicy.txt | find /i "MaximumPasswordAge" | find /v "\"
- 
-ECHO.
-ECHO â–  ê²°ê³¼
-TYPE LocalSecurityPolicy.txt | find "MaximumPasswordAge =" > passwd.txt
-FOR /f "tokens=1-3" %%a IN (passwd.txt) DO SET passwd_maxage=%%c
-IF %passwd_maxage% LEQ 90 ECHO ì–‘í˜¸
-IF NOT %passwd_maxage% LEQ 90 ECHO ì·¨ì•½
- 
-DEL LocalSecurityPolicy.txt
-DEL passwd.txt
+@echo off
+
+echo W-50 START
+echo.
+echo [W50] ÆÐ½º¿öµå ÃÖ´ë »ç¿ë ±â°£
+echo.
+echo ¡á Áø´Ü ÇöÈ²
+
+for /f "tokens=3" %%A in ('find /i "MaximumPasswordAge" LocalSecurityPolicy.txt') do (
+    set "MaximumPasswordAge=%%A"
+)
+
+
+if %MaximumPasswordAge% LSS 90 (
+	echo ¡á °á°ú: À§Çè
+	echo ¡á Á¶Ä¡ ¹æ¾È 
+	echo Step 1. ½ÃÀÛ - ½ÇÇà - SECPOL.MSC - °èÁ¤ Á¤Ã¥ - ¾ÏÈ£Á¤Ã¥
+	echo Step 2.  "ÃÖ´ë ¾ÏÈ£ »ç¿ë ±â°£"ÀÇ "»ç¿ë ±â°£"À» "90ÀÏ"·Î ¼³Á¤
+) else (
+	echo ¡á °á°ú: ¾ÈÀü
+)

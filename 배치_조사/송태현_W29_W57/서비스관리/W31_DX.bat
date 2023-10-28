@@ -6,4 +6,4 @@ echo.
 echo ■ 진단 현황                                                                                         
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings" /v MinorVersion 
 systeminfo | find "OS " 
-echo ■ 결과 : 애매
+echo ■ 결과 : 경고

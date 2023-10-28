@@ -1,20 +1,20 @@
-@ECHO OFF
- 
-ECHO â–  ê¸°ì¤€
-ECHO ì–‘í˜¸ : "ìµœì†Œ ì•”í˜¸ ê¸¸ì´"ê°€ "8ë¬¸ìž" ì´ìƒìœ¼ë¡œ ì„¤ì •ë˜ì–´ ìžˆëŠ” ê²½ìš°
-ECHO ì·¨ì•½ : "ìµœì†Œ ì•”í˜¸ ê¸¸ì´"ê°€ ì„¤ì •ë˜ì§€ ì•Šì•˜ê±°ë‚˜ "8ë¬¸ìž" ë¯¸ë§Œìœ¼ë¡œ ì„¤ì •ë˜ì–´ ìžˆëŠ” ê²½ìš°
- 
-ECHO.
-ECHO â–  í˜„í™©
-secedit /EXPORT /CFG LocalSecurityPolicy.txt
-TYPE LocalSecurityPolicy.txt | find /i "MinimumPasswordLength"
- 
-ECHO.
-ECHO â–  ê²°ê³¼
-TYPE LocalSecurityPolicy.txt | find "MinimumPasswordLength =" > passwd.txt
-FOR /f "tokens=1-3" %%a IN (passwd.txt) DO SET passwd_length=%%c
-IF %passwd_length% GEQ 8 ECHO ì–‘í˜¸
-IF NOT %passwd_length% GEQ 8 ECHO ì·¨ì•½
- 
-DEL LocalSecurityPolicy.txt
-DEL passwd.txt
+@echo off
+
+echo W-49 START
+echo.
+echo [W49] ÆÐ½º¿öµå ÃÖ¼Ò ¾ÏÈ£ ±æÀÌ
+echo.
+echo ¡á Áø´Ü ÇöÈ²
+
+for /f "tokens=3" %%A in ('find /i "MinimumPasswordLength" LocalSecurityPolicy.txt') do (
+    set "MinimumPasswordLength=%%A"
+)
+
+if %MinimumPasswordLength% equ 0 (
+	echo ¡á °á°ú: À§Çè
+	echo ¡á Á¶Ä¡ ¹æ¾È 
+	echo Step 1. ½ÃÀÛ - ½ÇÇà - SECPOL.MSC - °èÁ¤ Á¤Ã¥ - ¾ÏÈ£Á¤Ã¥
+	echo Step 2.  "ÃÖ¼Ò ¾ÏÈ£ ±æÀÌ"¸¦ "8¹®ÀÚ"ÀÌ»óÀ¸·Î ¼³Á¤
+) else (
+	echo ¡á °á°ú: ¾ÈÀü
+)

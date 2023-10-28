@@ -1,8 +1,8 @@
 @echo off
 echo W-33 START
-echo.                                                                                         
-echo [W33] ��� ���α׷� ������Ʈ                                                              
+echo. 
+echo [W33] 백신 프로그램 업데이트
 echo.
-echo �� ���� ��Ȳ                                                                                         
-net start | findstr /I "AlYac Hauri V3 test Symantec AVG"
-echo �� ��� : �ָ�                                                     
+echo ■ 진단 현황
+echo 직접 확인 필요
+echo ■ 결과 : 경고
