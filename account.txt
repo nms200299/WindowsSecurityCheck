@@ -1,0 +1,9 @@
+
+\\DESKTOP-J34BS0F에 대한 사용자 계정
+
+-------------------------------------------------------------------------------
+2N                       Administrator            DefaultAccount           
+Guest                    tester                   VUSR_DESKTOP-J34BS0F     
+WDAGUtilityAccount       
+명령을 잘 실행했습니다.
+
