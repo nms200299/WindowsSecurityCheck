@@ -1,5 +1,4 @@
 @echo off
-setlocal
 
 echo W-35 START
 echo.
