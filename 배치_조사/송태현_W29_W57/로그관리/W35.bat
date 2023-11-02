@@ -1,22 +1,21 @@
 @echo off
-setlocal enabledelayedexpansion
+setlocal
 
 echo W-35 START
 echo.
-echo [W35] ¿ø°ÝÀ¸·Î ¾×¼¼½º ÇÒ ¼ö ÀÖ´Â ·¹Áö½ºÆ®¸® °æ·Î
+echo [W35] ì›ê²©ìœ¼ë¡œ ì•¡ì„¸ìŠ¤ í•  ìˆ˜ ìžˆëŠ” ë ˆì§€ìŠ¤íŠ¸ë¦¬ ê²½ë¡œ
 echo.
-echo ¡á Áø´Ü ÇöÈ²
+echo â–  ì§„ë‹¨ í˜„í™©
 
 net start | find /I "Remote Registry" > nul
-if !errorlevel! EQU 0 (
-    echo ¡á °á°ú: À§Çè
-    echo ¡á Á¶Ä¡ ¹æ¾È
-	echo Step 1. ½ÃÀÛ - ½ÇÇà - SERVICES.MSC - Remote Registry - ¼Ó¼º
-    echo Step 2. ½ÃÀÛ À¯Çü - »ç¿ë ¾ÈÇÔ
-	echo Step 3. ¼­ºñ½º »óÅÂ - ÁßÁö
-
+if %errorlevel% EQU 0 (
+    echo â–  ê²°ê³¼: ìœ„í—˜
+    echo â–  ì¡°ì¹˜ ë°©ì•ˆ
+    echo Step 1. ì‹œìž‘ - ì‹¤í–‰ - SERVICES.MSC - Remote Registry - ì†ì„±
+    echo Step 2. ì‹œìž‘ ìœ í˜• - ì‚¬ìš© ì•ˆí•¨
+    echo Step 3. ì„œë¹„ìŠ¤ ìƒíƒœ - ì¤‘ì§€
 ) else (
-    echo ¡á °á°ú: ¾ÈÀü
+    echo â–  ê²°ê³¼: ì•ˆì „
 )
 
 endlocal
