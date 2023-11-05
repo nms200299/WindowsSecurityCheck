@@ -1,4 +1,21 @@
 @echo off
+cd | find /i "C:\WINDOWS\system32" > NUL
+if %errorlevel% EQU 1 (
+	echo.
+	echo 스크립트를 관리자 권한으로 실행해주세요.
+	echo 스크립트를 종료합니다.
+	echo.
+	pause
+	exit
+) else (
+	cd /d %~dp0
+	rem 관리자 계정으로 실행시, system32 경로로 작업 디렉터리가 바뀌는 것을 복구해줌.
+
+	del /F /Q ".\module\tmp\*" > NUL
+	rem 임시로 생성한 정책 및 설정 파일을 모두 강제로(/F) 묻지 않고(/Q) 지워버린다.
+)
+
+
 :start
 cls
 echo __        ___           _                                            
@@ -105,41 +122,47 @@ echo  --------------------------------------------------------------------------
 echo ^| 6. DB 관리    ^| 상     ^| W82. Windows 인증 모드 사용
 echo ^|               ^|        ^|
 echo ^| (1개 항목)    ^|        ^|
-echo  __________________________________________________________________________________
-echo Usage : 
-echo.
-echo.
-echo  __________________________________________________________________________________
+echo  ----------------------------------------------------------------------------------
+echo Usage : W[nn] = 개별 진단 (ex. W01)
+echo         [0~6] = 항목 진단 (ex. 1)
+echo         ALL   = 전체 진단
+echo         EXIT  = 프로그램 종료
+echo  ----------------------------------------------------------------------------------
 
-cd | find /i "C:\WINDOWS\system32" > NUL
-if %errorlevel% EQU 1 (
-	echo.
-	echo 스크립트를 관리자 권한으로 실행해주세요.
-	echo 스크립트를 종료합니다.
-	echo.
-	pause
-	exit
-) else (
-	cd /d %~dp0
-	rem 관리자 계정으로 실행시, system32 경로로 작업 디렉터리가 바뀌는 것을 복구해줌.
-)
-
+set "choice="
+rem 입력 값에 빈 값이 왔을 때, 이전 값을 사용하는 것을 막기 위해 초기화.
 set /p choice=input : 
 setlocal enabledelayedexpansion
 
 echo.
+if "%choice%" == "" (
+	echo Syntax Error!
+	pause
+	goto start
+)
+rem 입력 값에 빈 값이 오면 에러 출력 후, 되돌아감.
+
+set "logFileName=%date%_%time%.log"
+set "logFileName=!logFileName::=.!"
+rem 지연된 확장 변수 문법으로 :을 .으로 대체
+rem (파일 이름으로 :은 사용할 수 없음)
+
 if "%choice:~0,1%" == "W" (
-rem 입력 값 맨 앞 문자가 W이면 개별 진단을 의미함.
+rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 	if "%choice:~2,1%" == "" (
 		set "choice=W0%choice:~1,1%"
 		rem 항목 번호가 nn이 아닌 n 형식인 경우('W1'), nn 형식('W01')으로 수정함.
 	) 
-	call "./module/script/!choice!.bat"
+	call "./module/script/!choice!.bat" > ".\log\%logFileName%"
+	rem 진단 스크립트를 실행하고, log 파일로 저장
+
+	type ".\log\%logFileName%"
+	rem 저장된 log 파일을 출력
 
 ) else (
 	if /i %choice% == ALL (
 		echo [전체 진단]
-		rem 입력 값이 ALL이면 전체 진단을 의미함.
+		rem 입력 값이 ALL이면 [전체 진단]을 의미함.
 	) else (
 
 		if /i %choice% == EXIT (
@@ -149,8 +172,9 @@ rem 입력 값 맨 앞 문자가 W이면 개별 진단을 의미함.
 
 			if %choice% GEQ 1 (
 				if %choice% LEQ 6 (
+					rem 입력 값이 1~6이면 [항목 진단]을 의미함.
 					for /f "tokens=*" %%A in (./module/schedule/%choice%.txt) do (
-						echo %%A
+						echo %%A >> "./log/%logFileName%"
 					)
 
 				) else (

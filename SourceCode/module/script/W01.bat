@@ -1,42 +1,30 @@
 @echo off
-echo ###########################################################
+echo ###################################################################################
+echo [W01] Administrator 계정 이름 바꾸기
+echo.
 
-echo #                  pc check를 시작하겠습니다              #
+echo ■ 진단 기준
+echo 	양호 :  Administrator 이름의 계정이 존재하지 않음.
+echo 	취약 :  Administrator 이름의 계정이 존재함.
+echo.
+echo.
 
-echo ###########################################################
+echo ■ 진단 결과　
+net users | find /i "Administrator"
+rem 대소문자 상관없이 비교
+rem (Administrator에서 administrator으로 변경한다고 유추가 어려운 것이 아님으로.)
 
-pause
+if %errorlevel% EQU 0 (
+	echo 	→ 취약 ^(Administrator 계정이 발견됨^)
+	echo.
+	echo.
+	echo ■ 조치 방안
+	echo 	Step1^) 시작 -^> 프로그램 -^> 제어판 -^> 관리도구 -^> 로컬 보안 정책 -^> 로컬 정책 -^> 보안옵션
+	echo 	Step2^) "계정: Administrator 계정 이름 바꾸기"를 유추하기 어려운 계정 이름으로 변경
+) else (
+	echo 	→ 안전 ^(Administrator 계정이 발견되지 않음^)
+)
+echo.
+echo.
 
 
-setlocal 
-
-set flags = 0
-
-set name = 0 
-
-
-echo [1.1 administrator 계정 이름 바꾸기]
-
-
-echo ■ 기준
-echo 양호 :  Administrator 이름의 계정이 존재함
-echo 취약 :  Administrator 이름의 계정이 존재하지 않음
- 
-
-echo ■ 결과 
-net user > account.txt 
-
-type account.txt | find/i  "Administrator"
-if errorlevel 1 echo [양호] Administrator 계정이 존재하지 않음 
-if not errorlevel 1 echo [취약] Administrator 계정이 존재함 
-
- 
-
-echo ■ 조치 
-if not errorlevel 1 echo 어드민 계정이 발견 되었습니다.  
-if not errorlevel 1 set /p flag="admin 계정이름을 변경 하시겠습니까? <Y/N>"
-if /i "%flag%" =="y" (set /p name="변경할 계정이름을 입력해 주세요 :") 
-if /i "%flag%" =="y" (wmic useraccount where name='Administrator' call rename "%name%")
-if /i "%flag%" =="y" echo 계정이름이 "%name%"으로 변경 되었습니다.
-
-if errorlevel 0 echo 어드민 계정이 없습니다 [안전]
