@@ -1,18 +1,27 @@
-@ECHO OFF
+@echo off
+echo ###################################################################################
+echo [W02] ∞Ë¡§∞¸∏Æ - Guest ∞Ë¡§ ªÛ≈¬
+echo.
 
-ECHO Í∏∞Ï§Ä
-ECHO ÏñëÌò∏ : Guest Í≥ÑÏ†ïÏù¥ ÎπÑÌôúÏÑ±Ìôî ÎêòÏñ¥ ÏûàÎäî Í≤ΩÏö∞
-ECHO Ï∑®ÏïΩ : Guest Í≥ÑÏ†ïÏù¥ ÌôúÏÑ±Ìôî ÎêòÏñ¥ ÏûàÎäî Í≤ΩÏö∞
+echo °· ¡¯¥‹ ±‚¡ÿ
+echo 	æÁ»£ : Guest ∞Ë¡§¿Ã ∫Ò»∞º∫»≠ µ«æÓ ¿÷¿Ω.
+echo 	√Îæ‡ : Guest ∞Ë¡§¿Ã »∞º∫»≠ µ«æÓ ¿÷¿Ω.
+echo.
+echo.
 
-ECHO.
-ECHO ÌòÑÌô©
-net user guest > NUL
-IF NOT ERRORLEVEL 1 net user guest | find "ÌôúÏÑ± Í≥ÑÏ†ï"
-
-EHCO.
-EHCO Í≤∞Í≥º
-net user guest | find "ÌôúÏÑ± Í≥ÑÏ†ï" | find "Ïòà" > NUL
-IF ERRORLEVEL 1 ECHO ÏñëÌò∏
-IF NOT ERRORLEVEL 1 ECHO Ï∑®ÏïΩ
-
-pause
+echo °· ¡¯¥‹ ∞·∞˙
+net user guest | find "»∞º∫ ∞Ë¡§" | find "øπ"
+if %errorlevel% EQU 0 (
+	echo 	°Ê √Îæ‡ ^(Guest ∞Ë¡§¿Ã »∞º∫»≠ µ ^)
+	echo.
+	echo.
+	echo °· ¡∂ƒ° πÊæ»
+	echo 	Step1^) Ω√¿€ -^> Ω««‡ -^> LUSRMGR.MSC -^> ªÁøÎ¿⁄ -^> GUEST -^> '¿œπ›' ≈«
+	echo 	Step2^) "∞Ë¡§ ªÁøÎ æ» «‘"ø° √º≈©
+	call %CHK_FILE% PWN
+) else (
+	echo 	°Ê æÁ»£ ^(Guest ∞Ë¡§¿Ã »∞º∫»≠ µ«¡ˆ æ ¿Ω^)
+	call %CHK_FILE% SAFE
+)
+echo.
+echo.

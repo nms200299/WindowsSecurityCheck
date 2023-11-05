@@ -124,7 +124,7 @@ echo ^|               ^|        ^|
 echo ^| (1개 항목)    ^|        ^|
 echo  ----------------------------------------------------------------------------------
 echo Usage : W[nn] = 개별 진단 (ex. W01)
-echo         [0~6] = 항목 진단 (ex. 1)
+echo         [1~6] = 항목 진단 (ex. 1)
 echo         ALL   = 전체 진단
 echo         EXIT  = 프로그램 종료
 echo  ----------------------------------------------------------------------------------
@@ -146,18 +146,38 @@ set "logFileName=%date%_%time%.log"
 set "logFileName=!logFileName::=.!"
 rem 지연된 확장 변수 문법으로 :을 .으로 대체
 rem (파일 이름으로 :은 사용할 수 없음)
+set "logFileName=!logFileName: =0!"
+rem 지연된 확장 변수 문법으로 공백을 0으로 대체
+rem (n을 nn형식으로 변환)
+
+set "TMP_PATH=.\module\tmp"
+echo 0 > "%TMP_PATH%\CHK_TOTAL"
+echo 0 > "%TMP_PATH%\CHK_SAFE"
+echo 0 > "%TMP_PATH%\CHK_WARN"
+echo 0 > "%TMP_PATH%\CHK_PWN"
+set "CHK_FILE=.\module\mod_cntChkState.bat"
+
+set "SCR_PATH=.\module\script"
 
 if "%choice:~0,1%" == "W" (
 rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 	if "%choice:~2,1%" == "" (
 		set "choice=W0%choice:~1,1%"
 		rem 항목 번호가 nn이 아닌 n 형식인 경우('W1'), nn 형식('W01')으로 수정함.
-	) 
-	call "./module/script/!choice!.bat" > ".\log\%logFileName%"
-	rem 진단 스크립트를 실행하고, log 파일로 저장
+	)
 
+	if NOT EXIST "%SCR_PATH%\!choice!.bat" (
+		echo Not found script file.
+		pause
+		goto start
+	)
+
+	call %CHK_FILE% TOTAL
+	call "%SCR_PATH%\!choice!.bat" > ".\log\%logFileName%"
+	rem 진단 스크립트를 실행하고, log 파일로 저장
 	type ".\log\%logFileName%"
 	rem 저장된 log 파일을 출력
+
 
 ) else (
 	if /i %choice% == ALL (
@@ -173,27 +193,44 @@ rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 			if %choice% GEQ 1 (
 				if %choice% LEQ 6 (
 					rem 입력 값이 1~6이면 [항목 진단]을 의미함.
-					for /f "tokens=*" %%A in (./module/schedule/%choice%.txt) do (
-						echo %%A >> "./log/%logFileName%"
+					for /f "tokens=*" %%A in (.\module\schedule\%choice%.txt) do (
+						call %CHK_FILE% TOTAL
+						call "%SCR_PATH%\%%A.bat" > ".\log\%logFileName%"
+						rem 진단 스크립트를 실행하고, log 파일로 저장
+
+						type ".\log\%logFileName%"
+						rem 저장된 log 파일을 출력
+						REM echo %%A >> "./log/%logFileName%"
 					)
 
 				) else (
 					echo Syntax Error!
+					goto start
 				)
 			) else (
 				echo Syntax Error!
+				goto start
 			)
 			rem 입력 값이 1~6이면 항목 진단을 수행하고,
 			rem 아니면 문법에러 메시지를 띄운다.
 		)
 	)
-
-
-
-
-
-
 )
 
+echo ###################################################################################
+echo.
+
+for /f %%a in (%TMP_PATH%\CHK_TOTAL) do (set /a CHK_TOTAL=%%a)
+for /f %%a in (%TMP_PATH%\CHK_SAFE) do (set /a CHK_SAFE=%%a)
+for /f %%a in (%TMP_PATH%\CHK_WARN) do (set /a CHK_WARN=%%a)
+for /f %%a in (%TMP_PATH%\CHK_PWN) do (set /a CHK_PWN=%%a)
+
+echo 전체 진단 항목 : %CHK_TOTAL%개
+echo 양호한 항목 : %CHK_SAFE%개
+echo 주의할 항목 : %CHK_WARN%개
+echo 취약한 항목 : %CHK_PWN%개
+echo.
+echo 로그 파일 경로 : .\log\%logFileName%
+echo.
 pause
 goto start
