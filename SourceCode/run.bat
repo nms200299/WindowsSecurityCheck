@@ -111,6 +111,19 @@ echo.
 echo.
 echo  __________________________________________________________________________________
 
+cd | find /i "C:\WINDOWS\system32" > NUL
+if %errorlevel% EQU 1 (
+	echo.
+	echo 스크립트를 관리자 권한으로 실행해주세요.
+	echo 스크립트를 종료합니다.
+	echo.
+	pause
+	exit
+) else (
+	cd /d %~dp0
+	rem 관리자 계정으로 실행시, system32 경로로 작업 디렉터리가 바뀌는 것을 복구해줌.
+)
+
 set /p choice=input : 
 setlocal enabledelayedexpansion
 
@@ -121,7 +134,7 @@ rem 입력 값 맨 앞 문자가 W이면 개별 진단을 의미함.
 		set "choice=W0%choice:~1,1%"
 		rem 항목 번호가 nn이 아닌 n 형식인 경우('W1'), nn 형식('W01')으로 수정함.
 	) 
-	call "./script/!choice!.bat"
+	call "./module/script/!choice!.bat"
 
 ) else (
 	if /i %choice% == ALL (
@@ -136,7 +149,7 @@ rem 입력 값 맨 앞 문자가 W이면 개별 진단을 의미함.
 
 			if %choice% GEQ 1 (
 				if %choice% LEQ 6 (
-					for /f "tokens=*" %%A in (./schedule/%choice%.txt) do (
+					for /f "tokens=*" %%A in (./module/schedule/%choice%.txt) do (
 						echo %%A
 					)
 
