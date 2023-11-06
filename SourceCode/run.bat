@@ -179,7 +179,6 @@ rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 	type ".\log\%logFileName%"
 	rem 저장된 log 파일을 출력
 
-
 ) else (
 	if /i %choice% == ALL (
 		echo [전체 진단]
@@ -217,11 +216,11 @@ rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 	)
 )
 
-call .\module\mod_cntChkPrint.bat > "%TMP_PATH%\LOG_TEMP"
+call .\module\mod_cntChkPrint.bat > %TMP_PATH%\LOG_TEMP
 rem 점검 결과를 출력하는 배치파일을 호출한다.
 
 type "%TMP_PATH%\LOG_TEMP"
-type "%TMP_PATH%\LOG_TEMP" >> ".\log\%logFileName%"
+type "%TMP_PATH%\LOG_TEMP" >> .\log\%logFileName%
 rem LOG_TEMP 파일을 출력하고, log 파일로 병합 
 
 REM del /F /Q "%TMP_PATH%\*" > NUL

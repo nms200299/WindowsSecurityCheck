@@ -17,9 +17,17 @@ echo.
 echo.
 echo [주의/취약 목록]
 echo 	주의할 항목 :
-type %TMP_PATH%\CHK_WARN_NUM
+if exist %TMP_PATH%\CHK_WARN_NUM ( 
+	type %TMP_PATH%\CHK_WARN_NUM
+) else (
+	echo				없음.
+)
 echo 	취약한 항목 :
-type %TMP_PATH%\CHK_PWN_NUM
+if exist %TMP_PATH%\CHK_PWN_NUM (
+	type %TMP_PATH%\CHK_PWN_NUM
+) else (
+	echo				없음.
+)
 echo.
 echo.
 
