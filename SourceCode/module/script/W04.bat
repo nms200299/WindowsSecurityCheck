@@ -1,35 +1,52 @@
-@ECHO OFF
+@echo off
+echo ###################################################################################
+echo [W04] ∞Ë¡§∞¸∏Æ - ∞Ë¡§ ¿·±› ¿”∞Ë∞™ º≥¡§
+echo.
 
- 
+echo °· ¡¯¥‹ ±‚¡ÿ
+echo 	æÁ»£ : ∞Ë¡§ ¿·±› ¿”∞Ë∞™¿Ã 5 ¿Ã«œ¿« ∞™¿∏∑Œ º≥¡§µ«æÓ ¿÷¿Ω.
+echo 	√Îæ‡ : ∞Ë¡§ ¿·±› ¿”∞Ë∞™¿Ã 6 ¿ÃªÛ¿« ∞™¿∏∑Œ º≥¡§µ«æÓ ¿÷¿Ω.
+echo.
+echo.
 
-ECHO ‚ñ† Í∏∞Ï§Ä
+echo °· ¡¯¥‹ ∞·∞˙
+call .\module\mod_createSecEdit.bat
+set "filePath=.\module\tmp\securityPolicy.txt"
+set "result="
+setlocal enabledelayedexpansion
+for /f "tokens=1-2 delims==" %%a in ('type %filePath%') do (
+	if "%%a" == "LockoutBadCount " (
+		echo %%a=%%b
+		set "result=%%b"
+		rem «◊∏Ò∏Ì∞˙ ∞™¿ª √‚∑¬«œ∞Ì ∞™¿ª ∫Øºˆø° ¿˙¿Â
+		set "result=!result:~1,1!"
+		rem ∞™ø°º≠ Ω∫∆‰¿ÃΩ∫ ¿⁄∏ß
+		set /a "result=!result!"
+		rem ∞™¿ª ªÛºˆ∑Œ ∫Ø»Ø
+		goto break
+	)
+)
+:break
+	if !result! EQU 0 (
+		echo 	°Ê √Îæ‡ ^(∞Ë¡§ ¿·±› ¿”∞Ë∞™¿Ã 0^(æ∆¥‘^)¿Ã∂Û∞Ì º≥¡§µ«æÓ ¿÷¿Ω^)
+		goto pwn
+	) else if !result! GEQ 6 (
+		echo 	°Ê √Îæ‡ ^(∞Ë¡§ ¿·±› ¿”∞Ë∞™¿Ã 6 ¿ÃªÛ¿∏∑Œ º≥¡§µ«æÓ ¿÷¿Ω^)
+		goto pwn
+	) else (
+		echo 	°Ê æÁ»£ (∞Ë¡§ ¿·±› ¿”∞Ë∞™¿Ã 0 √ ∞˙, 5 ¿Ã«œ∑Œ º≥¡§µ«æÓ ¿÷¿Ω)
+		call %CHK_FILE% SAFE
+		goto next
+	)
 
-ECHO ÏñëÌò∏ : Í≥ÑÏ†ï Ïû†Í∏à ÏûÑÍ≥ÑÍ∞íÏù¥ 5 Ïù¥ÌïòÏùò Í∞íÏúºÎ°ú ÏÑ§Ï†ïÎêòÏñ¥ ÏûàÎäî Í≤ΩÏö∞
-
-ECHO Ï∑®ÏïΩ : Í≥ÑÏ†ï Ïû†Í∏à ÏûÑÍ≥ÑÍ∞íÏù¥ 6 Ïù¥ÏÉÅÏùò Í∞íÏúºÎ°ú ÏÑ§Ï†ïÎêòÏñ¥ ÏûàÎäî Í≤ΩÏö∞
-
- 
-
-ECHO.
-
-ECHO ‚ñ† ÌòÑÌô©
-
-net accounts | findstr /I /C:"Ïû†Í∏à ÏûÑÍ≥ÑÍ∞í"
-
- 
-
-ECHO.
-
-ECHO ‚ñ† Í≤∞Í≥º
-
-net accounts | findstr /I /C:"Ïû†Í∏à ÏûÑÍ≥ÑÍ∞í" > 1-04-Threshold.txt
-
-FOR /f "tokens=1-3" %%a IN (1-04-Threshold.txt) DO SET Threshold=%%c
-
-IF %Threshold% LEQ 5 ECHO ÏñëÌò∏
-
-IF NOT %Threshold% LEQ 5 ECHO Ï∑®ÏïΩ
-
- 
-
-DEL 1-04-Threshold.txt
+:pwn
+	echo.
+	echo.
+	echo °· ¡∂ƒ° πÊæ»
+	echo 	Step1^) Ω√¿€ -^> Ω««‡ -^> SECPOL.MSC -^> ∞Ë¡§ ¡§√• -^> ∞Ë¡§ ¿·±› ¡§√•
+	echo 	Step2^) "∞Ë¡§ ¿·±› ¿”∞Ë∞™"¿ª "5"¿Ã«œ¿« ∞™¿∏∑Œ º≥¡§
+	call %CHK_FILE% PWN
+	goto next
+:next
+	echo.
+	echo.

@@ -1,22 +1,43 @@
-@ECHO OFF
+@echo off
+echo ###################################################################################
+echo [W05] °èÁ¤°ü¸® - ÇØµ¶ °¡´ÉÇÑ ¾ÏÈ£È­¸¦ »ç¿ëÇÏ¿© ¾ÏÈ£ ÀúÀå ÇØÁ¦
+echo.
 
+echo ¡á Áø´Ü ±âÁØ
+echo 	¾çÈ£ : "ÇØµ¶ °¡´ÉÇÑ ¾ÏÈ£È­¸¦ »ç¿ëÇÏ¿© ¾ÏÈ£ ÀúÀå" Á¤Ã¥ÀÌ "»ç¿ë ¾È ÇÔ"À¸·Î µÇ¾î ÀÖÀ½.
+echo 	Ãë¾à : "ÇØµ¶ °¡´ÉÇÑ ¾ÏÈ£È­¸¦ »ç¿ëÇÏ¿© ¾ÏÈ£ ÀúÀå" Á¤Ã¥ÀÌ "»ç¿ë"À¸·Î µÇ¾î ÀÖÀ½.
+echo.
+echo.
 
-ECHO â–  ê¸°ì¤€
-ECHO ì–‘í˜¸ : "í•´ë… ê°€ëŠ¥í•œ ì•”í˜¸í™”ë¥¼ ì‚¬ìš©í•˜ì—¬ ì•”í˜¸ ì €ìž¥" ì •ì±…ì´ "ì‚¬ìš© ì•ˆ í•¨" ìœ¼ë¡œ ë˜ì–´ ìžˆëŠ” ê²½ìš°
-ECHO ì·¨ì•½ : "í•´ë… ê°€ëŠ¥í•œ ì•”í˜¸í™”ë¥¼ ì‚¬ìš©í•˜ì—¬ ì•”í˜¸ ì €ìž¥" ì •ì±…ì´ "ì‚¬ìš©" ìœ¼ë¡œ ë˜ì–´ ìžˆëŠ” ê²½ìš°
-
-
-ECHO.
-ECHO â–  í˜„í™©
-secedit /export /cfg LocalSecurityPolicy.txt
-TYPE LocalSecurityPolicy.txt | find /i "ClearTextPassword"
-
-
-ECHO.
-ECHO â–  ê²°ê³¼
-TYPE LocalSecurityPolicy.txt | find /i "ClearTextPassword = 1" > NUL
-IF ERRORLEVEL 1 ECHO ì–‘í˜¸
-IF NOT ERRORLEVEL 1 ECHO ì·¨ì•½
-
-
-DEL LocalSecurityPolicy.txt
+echo ¡á Áø´Ü °á°ú
+call .\module\mod_createSecEdit.bat
+set "filePath=.\module\tmp\securityPolicy.txt"
+set "result="
+setlocal enabledelayedexpansion
+for /f "tokens=1-2 delims==" %%a in ('type %filePath%') do (
+	if "%%a" == "ClearTextPassword " (
+		echo %%a=%%b
+		set "result=%%b"
+		rem Ç×¸ñ¸í°ú °ªÀ» Ãâ·ÂÇÏ°í °ªÀ» º¯¼ö¿¡ ÀúÀå
+		set "result=!result:~1,1!"
+		rem °ª¿¡¼­ ½ºÆäÀÌ½º ÀÚ¸§
+		set /a "result=!result!"
+		rem °ªÀ» »ó¼ö·Î º¯È¯
+		goto break
+	)
+)
+:break
+	if !result! EQU 0 (
+		echo 	¡æ ¾çÈ£ ^(ÇØ´ç Á¤Ã¥À» »ç¿ëÇÏÁö ¾ÊÀ½^)
+		call %CHK_FILE% SAFE
+	) else (
+		echo 	¡æ Ãë¾à ^(ÇØ´ç Á¤Ã¥À» »ç¿ëÇÔ^)
+		echo.
+		echo.
+		echo ¡á Á¶Ä¡ ¹æ¾È
+		echo 	Step1^) ½ÃÀÛ -^> ½ÇÇà -^> SECPOL.MSC -^> °èÁ¤ Á¤Ã¥ -^> ¾ÏÈ£ Á¤Ã¥
+		echo 	Step2^) "ÇØµ¶ °¡´ÉÇÑ ¾ÏÈ£È­¸¦ »ç¿ëÇÏ¿© ¾ÏÈ£ ÀúÀå"À» "»ç¿ë ¾È ÇÔ"À¸·Î ¼³Á¤
+		call %CHK_FILE% PWN
+	)
+	echo.
+	echo.

@@ -1,7 +1,26 @@
 @echo off
-
-echo [W-06] ê´€ë¦¬ìž ê·¸ë£¹ì— ìµœì†Œí•œì˜ ì‚¬ìš©ìž í¬í•¨
-
+echo ###################################################################################
+echo [W06] °èÁ¤°ü¸® - °ü¸®ÀÚ ±×·ì¿¡ ÃÖ¼ÒÇÑÀÇ »ç¿ëÀÚ Æ÷ÇÔ
 echo.
 
-net localgroup Administrators | find /v "ëª…ë ¹ì„" | find /v "ì„¤ëª…"
+echo ¡á Áø´Ü ±âÁØ
+echo 	¾çÈ£ : Administrators ±×·ìÀÇ ±¸¼º¿øÀ» 1¸í ÀÌÇÏ·Î À¯ÁöÇÏ°Å³ª,
+echo			ºÒÇÊ¿äÇÑ °ü¸®ÀÚ °èÁ¤ÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½.
+echo 	Ãë¾à : Administrators ±×·ì¿¡ ºÒÇÊ¿äÇÑ °ü¸®ÀÚ °èÁ¤ÀÌ Á¸ÀçÇÔ.
+echo 	ÁÖÀÇ :  ÇÁ·Î±×·¥À» ÅëÇØ ÆÇ´ÜÇÒ ¼ö ¾øÀ½.
+echo.
+echo.
+
+echo ¡á Áø´Ü °á°ú
+net localgroup Administrators | find /v "¸í·ÉÀ» Àß ½ÇÇàÇß½À´Ï´Ù."
+rem "¸í·ÉÀ» Àß ½ÇÇàÇß½À´Ï´Ù." ¹®ÀÚ¸¸ »©°í Ãâ·Â
+echo 	¡æ ÁÖÀÇ ^(ÆÇ´Ü ºÒ°¡^)
+echo.
+echo.
+
+echo ¡á Á¶Ä¡ ¹æ¾È
+echo 	Step1^) ½ÃÀÛ -^> ½ÇÇà -^> LUSRMGR.MSC -^> ±×·ì -^> Administrators -^> ¼Ó¼º
+echo 	Step2^) Administrators ±×·ì¿¡¼­ ºÒÇÊ¿äÇÑ °èÁ¤ Á¦°Å ÈÄ ±×·ì º¯°æ
+call %CHK_FILE% WARN
+echo.
+echo.

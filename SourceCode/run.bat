@@ -10,9 +10,6 @@ if %errorlevel% EQU 1 (
 ) else (
 	cd /d %~dp0
 	rem 관리자 계정으로 실행시, system32 경로로 작업 디렉터리가 바뀌는 것을 복구해줌.
-
-	del /F /Q ".\module\tmp\*" > NUL
-	rem 임시로 생성한 정책 및 설정 파일을 모두 강제로(/F) 묻지 않고(/Q) 지워버린다.
 )
 
 
@@ -129,6 +126,12 @@ echo         ALL   = 전체 진단
 echo         EXIT  = 프로그램 종료
 echo  ----------------------------------------------------------------------------------
 
+set "TMP_PATH=.\module\tmp"
+set "SCR_PATH=.\module\script"
+
+del /F /Q "%TMP_PATH%\*" > NUL
+rem 임시로 생성한 정책 및 설정 파일을 모두 강제로(/F) 묻지 않고(/Q) 지워버린다.
+
 set "choice="
 rem 입력 값에 빈 값이 왔을 때, 이전 값을 사용하는 것을 막기 위해 초기화.
 set /p choice=input : 
@@ -150,14 +153,11 @@ set "logFileName=!logFileName: =0!"
 rem 지연된 확장 변수 문법으로 공백을 0으로 대체
 rem (n을 nn형식으로 변환)
 
-set "TMP_PATH=.\module\tmp"
 echo 0 > "%TMP_PATH%\CHK_TOTAL"
 echo 0 > "%TMP_PATH%\CHK_SAFE"
 echo 0 > "%TMP_PATH%\CHK_WARN"
 echo 0 > "%TMP_PATH%\CHK_PWN"
 set "CHK_FILE=.\module\mod_cntChkState.bat"
-
-set "SCR_PATH=.\module\script"
 
 if "%choice:~0,1%" == "W" (
 rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
@@ -195,14 +195,12 @@ rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 					rem 입력 값이 1~6이면 [항목 진단]을 의미함.
 					for /f "tokens=*" %%A in (.\module\schedule\%choice%.txt) do (
 						call %CHK_FILE% TOTAL
-						call "%SCR_PATH%\%%A.bat" > ".\log\%logFileName%"
-						rem 진단 스크립트를 실행하고, log 파일로 저장
-
-						type ".\log\%logFileName%"
-						rem 저장된 log 파일을 출력
-						REM echo %%A >> "./log/%logFileName%"
+						call "%SCR_PATH%\%%A.bat" > "%TMP_PATH%\LOG_TEMP"
+						rem 진단 스크립트를 실행하고, LOG_TEMP 파일로 저장
+						type "%TMP_PATH%\LOG_TEMP"
+						type "%TMP_PATH%\LOG_TEMP" >> ".\log\%logFileName%"
+						rem LOG_TEMP 파일을 출력하고, log 파일로 병합 
 					)
-
 				) else (
 					echo Syntax Error!
 					goto start
@@ -217,20 +215,15 @@ rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 	)
 )
 
-echo ###################################################################################
-echo.
+call .\module\mod_cntChkPrint.bat > "%TMP_PATH%\LOG_TEMP"
+rem 점검 결과를 출력하는 배치파일을 호출한다.
 
-for /f %%a in (%TMP_PATH%\CHK_TOTAL) do (set /a CHK_TOTAL=%%a)
-for /f %%a in (%TMP_PATH%\CHK_SAFE) do (set /a CHK_SAFE=%%a)
-for /f %%a in (%TMP_PATH%\CHK_WARN) do (set /a CHK_WARN=%%a)
-for /f %%a in (%TMP_PATH%\CHK_PWN) do (set /a CHK_PWN=%%a)
+type "%TMP_PATH%\LOG_TEMP"
+type "%TMP_PATH%\LOG_TEMP" >> ".\log\%logFileName%"
+rem LOG_TEMP 파일을 출력하고, log 파일로 병합 
 
-echo 전체 진단 항목 : %CHK_TOTAL%개
-echo 양호한 항목 : %CHK_SAFE%개
-echo 주의할 항목 : %CHK_WARN%개
-echo 취약한 항목 : %CHK_PWN%개
-echo.
-echo 로그 파일 경로 : .\log\%logFileName%
-echo.
+del /F /Q "%TMP_PATH%\*" > NUL
+rem 임시로 생성한 정책 및 설정 파일을 모두 강제로(/F) 묻지 않고(/Q) 지워버린다.
 pause
+
 goto start
