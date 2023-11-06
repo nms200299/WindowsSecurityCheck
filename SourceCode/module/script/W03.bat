@@ -20,6 +20,6 @@ echo.
 echo ■ 조치 방안
 echo 	Step1^) 시작 -^> 실행 -^> LUSRMGR.MSC -^> 사용자
 echo 	Step2^) 등록된 계정 중 불필요한 사용자 선택 -^> 속성 -^> "계정 사용 안 함"에 체크하거나 계정 삭제
-call %CHK_FILE% WARN
+call %CHK_FILE% WARN %1
 echo.
 echo.

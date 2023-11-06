@@ -21,6 +21,6 @@ echo.
 echo ■ 조치 방안
 echo 	Step1^) 시작 -^> 실행 -^> LUSRMGR.MSC -^> 그룹 -^> Administrators -^> 속성
 echo 	Step2^) Administrators 그룹에서 불필요한 계정 제거 후 그룹 변경
-call %CHK_FILE% WARN
+call %CHK_FILE% WARN %1
 echo.
 echo.

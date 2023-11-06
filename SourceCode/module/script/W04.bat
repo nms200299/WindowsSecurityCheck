@@ -35,7 +35,7 @@ for /f "tokens=1-2 delims==" %%a in ('type %filePath%') do (
 		goto pwn
 	) else (
 		echo 	→ 양호 (계정 잠금 임계값이 0 초과, 5 이하로 설정되어 있음)
-		call %CHK_FILE% SAFE
+		call %CHK_FILE% SAFE %1
 		goto next
 	)
 
@@ -45,7 +45,7 @@ for /f "tokens=1-2 delims==" %%a in ('type %filePath%') do (
 	echo ■ 조치 방안
 	echo 	Step1^) 시작 -^> 실행 -^> SECPOL.MSC -^> 계정 정책 -^> 계정 잠금 정책
 	echo 	Step2^) "계정 잠금 임계값"을 "5"이하의 값으로 설정
-	call %CHK_FILE% PWN
+	call %CHK_FILE% PWN %1
 	goto next
 :next
 	echo.

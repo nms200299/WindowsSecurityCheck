@@ -153,10 +153,10 @@ set "logFileName=!logFileName: =0!"
 rem 지연된 확장 변수 문법으로 공백을 0으로 대체
 rem (n을 nn형식으로 변환)
 
-echo 0 > "%TMP_PATH%\CHK_TOTAL"
-echo 0 > "%TMP_PATH%\CHK_SAFE"
-echo 0 > "%TMP_PATH%\CHK_WARN"
-echo 0 > "%TMP_PATH%\CHK_PWN"
+echo 0 > "%TMP_PATH%\CHK_TOTAL_CNT"
+echo 0 > "%TMP_PATH%\CHK_SAFE_CNT"
+echo 0 > "%TMP_PATH%\CHK_WARN_CNT"
+echo 0 > "%TMP_PATH%\CHK_PWN_CNT"
 set "CHK_FILE=.\module\mod_cntChkState.bat"
 
 if "%choice:~0,1%" == "W" (
@@ -173,7 +173,8 @@ rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 	)
 
 	call %CHK_FILE% TOTAL
-	call "%SCR_PATH%\!choice!.bat" > ".\log\%logFileName%"
+	echo @ !choice! 개별 진단 > ".\log\%logFileName%"
+	call "%SCR_PATH%\!choice!.bat" !choice! >> ".\log\%logFileName%"
 	rem 진단 스크립트를 실행하고, log 파일로 저장
 	type ".\log\%logFileName%"
 	rem 저장된 log 파일을 출력
@@ -193,9 +194,10 @@ rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 			if %choice% GEQ 1 (
 				if %choice% LEQ 6 (
 					rem 입력 값이 1~6이면 [항목 진단]을 의미함.
+					echo @ !choice!번 항목 진단 > ".\log\%logFileName%"
 					for /f "tokens=*" %%A in (.\module\schedule\%choice%.txt) do (
 						call %CHK_FILE% TOTAL
-						call "%SCR_PATH%\%%A.bat" > "%TMP_PATH%\LOG_TEMP"
+						call "%SCR_PATH%\%%A.bat" %%A > "%TMP_PATH%\LOG_TEMP"
 						rem 진단 스크립트를 실행하고, LOG_TEMP 파일로 저장
 						type "%TMP_PATH%\LOG_TEMP"
 						type "%TMP_PATH%\LOG_TEMP" >> ".\log\%logFileName%"
@@ -222,7 +224,7 @@ type "%TMP_PATH%\LOG_TEMP"
 type "%TMP_PATH%\LOG_TEMP" >> ".\log\%logFileName%"
 rem LOG_TEMP 파일을 출력하고, log 파일로 병합 
 
-del /F /Q "%TMP_PATH%\*" > NUL
+REM del /F /Q "%TMP_PATH%\*" > NUL
 rem 임시로 생성한 정책 및 설정 파일을 모두 강제로(/F) 묻지 않고(/Q) 지워버린다.
 pause
 

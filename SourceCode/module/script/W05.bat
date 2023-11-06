@@ -29,7 +29,7 @@ for /f "tokens=1-2 delims==" %%a in ('type %filePath%') do (
 :break
 	if !result! EQU 0 (
 		echo 	→ 양호 ^(해당 정책을 사용하지 않음^)
-		call %CHK_FILE% SAFE
+		call %CHK_FILE% SAFE %1
 	) else (
 		echo 	→ 취약 ^(해당 정책을 사용함^)
 		echo.
@@ -37,7 +37,7 @@ for /f "tokens=1-2 delims==" %%a in ('type %filePath%') do (
 		echo ■ 조치 방안
 		echo 	Step1^) 시작 -^> 실행 -^> SECPOL.MSC -^> 계정 정책 -^> 암호 정책
 		echo 	Step2^) "해독 가능한 암호화를 사용하여 암호 저장"을 "사용 안 함"으로 설정
-		call %CHK_FILE% PWN
+		call %CHK_FILE% PWN %1
 	)
 	echo.
 	echo.

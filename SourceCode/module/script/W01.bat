@@ -21,11 +21,11 @@ if %errorlevel% EQU 0 (
 	echo ■ 조치 방안
 	echo 	Step1^) 시작 -^> 프로그램 -^> 제어판 -^> 관리도구 -^> 로컬 보안 정책 -^> 로컬 정책 -^> 보안옵션
 	echo 	Step2^) "계정: Administrator 계정 이름 바꾸기"를 유추하기 어려운 계정 이름으로 변경
-	call %CHK_FILE% PWN
+	call %CHK_FILE% PWN %1
 
 ) else (
 	echo 	→ 양호 ^(Administrator 계정 미존재^)
-	call %CHK_FILE% SAFE
+	call %CHK_FILE% SAFE %1
 )
 echo.
 echo.

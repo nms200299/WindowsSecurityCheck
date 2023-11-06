@@ -18,10 +18,10 @@ if %errorlevel% EQU 0 (
 	echo ■ 조치 방안
 	echo 	Step1^) 시작 -^> 실행 -^> LUSRMGR.MSC -^> 사용자 -^> GUEST -^> '일반' 탭
 	echo 	Step2^) "계정 사용 안 함"에 체크
-	call %CHK_FILE% PWN
+	call %CHK_FILE% PWN %1
 ) else (
 	echo 	→ 양호 ^(Guest 계정이 활성화 되지 않음^)
-	call %CHK_FILE% SAFE
+	call %CHK_FILE% SAFE %1
 )
 echo.
 echo.
