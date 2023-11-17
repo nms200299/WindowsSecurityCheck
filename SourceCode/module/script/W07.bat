@@ -49,7 +49,7 @@ if %flag% EQU 1 (
 	echo ■ 조치 방안
 	echo 	Step1^) 시작 -^> 실행 -^> FSMGMT.MSC -^> 공유
 	echo 	Step2^) 사용 권한에서 Everyone 으로 된 공유를 제거하고 접근이 필요한 계정의 적절한 권한 추가
-	call %CHK_FILE% WARN %1
+	call %CHK_FILE% PWN %1
 ) else (
 	echo 	→ 양호 ^(공유 디렉토리에 Everyone 권한이 설정되어 있지 않음^)
 	call %CHK_FILE% SAFE %1
