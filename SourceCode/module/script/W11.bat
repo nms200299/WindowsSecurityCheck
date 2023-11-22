@@ -17,6 +17,8 @@ if errorlevel 1 (
     call %CHK_FILE% SAFE %1
 ) else (
     echo    → 취약 ^(디렉토리 리스팅이 발견됨^)
+    echo.
+    echo.
     echo ■ 조치 방법
     echo 제어판^> 관리도구^> IIS관리^> 해당 웹 사이트^> IIS^> "디렉토리 검색" 선택 후 "사용안함" 선택
     call %CHK_FILE% PWN %1

@@ -4,8 +4,8 @@ echo [W10] 서비스 관리 - IIS서비스 구동 점검
 echo.
 
 echo ■ 진단 기준
-echo 	양호 :  IIS 서비스를 사용하지 않음.
-echo 	경고 :  IIS 서비스를 사용하는 경우, 필요한지 확인 요망.
+echo 	양호 : IIS 서비스를 사용하지 않음.
+echo 	경고 : IIS 서비스를 사용하는 경우, 필요한지 확인 요망.
 echo.
 echo.
 
