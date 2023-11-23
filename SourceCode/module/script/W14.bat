@@ -23,11 +23,11 @@ if %version_number% LSS 6 (
 	echo.
 	echo.
 	echo ■ 조치 방안
-	echo Windows 2000, 2003의 경우 Sample 디렉토리 확인 후 삭제함.
-	echo    ^(c:\inetpub\iissamples^)
-	echo    ^(c:\winnt\help\iishelp ^(IIS 설명서^)^)
-	echo    ^(c:\program files\common files\system\msadc\sample ^(데이터 엑세스^)^)
-	echo    ^(^%SystemRoot^%\System32\Inetsrv\IISADMPWD^)
+	echo     Windows 2000, 2003의 경우 Sample 디렉토리 확인 후 삭제함.
+	echo        ^(c:\inetpub\iissamples^)
+	echo        ^(c:\winnt\help\iishelp ^(IIS 설명서^)^)
+	echo        ^(c:\program files\common files\system\msadc\sample ^(데이터 엑세스^)^)
+	echo        ^(^%SystemRoot^%\System32\Inetsrv\IISADMPWD^)
 	call %CHK_FILE% WARN %1
 ) else (
 	echo    → 양호 ^(IIS 7.0^(Windows 2008^) 이상 버전 해당 사항 없음^)
