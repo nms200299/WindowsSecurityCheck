@@ -34,7 +34,7 @@ for /f "tokens=1-2 delims==" %%a in ('type %filePath%') do (
 		echo 	→ 취약 ^(계정 잠금 임계값이 6 이상으로 설정되어 있음^)
 		goto pwn
 	) else (
-		echo 	→ 양호 (계정 잠금 임계값이 0 초과, 5 이하로 설정되어 있음)
+		echo 	→ 양호 ^(계정 잠금 임계값이 0 초과, 5 이하로 설정되어 있음^)
 		call %CHK_FILE% SAFE %1
 		goto next
 	)
