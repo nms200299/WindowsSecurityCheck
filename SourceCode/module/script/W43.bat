@@ -13,7 +13,7 @@ echo ■ 진단 결과
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /s | find /I "AutoAdminLogon"  > nul
 if not errorlevel 1 (
-	reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "AutoAdminLogon" | findstr /C:"0x1"  > nul
+	reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "AutoAdminLogon" | findstr /C:"1"  > nul
 	if not errorlevel 1 (
 		echo 	→ 취약 ^(AutoAdminLogon 값이 1로 설정되어 있는 경우^)
 		echo.

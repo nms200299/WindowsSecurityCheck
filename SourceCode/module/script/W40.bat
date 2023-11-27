@@ -12,19 +12,23 @@ echo.
 echo ■ 진단 결과
 set "flag=0"
 call .\module\mod_createSecEdit.bat
-for /F "tokens=1-3 delims=*" %%a in ('type .\module\tmp\securityPolicy.txt ^| find /i "SeRemoteShutdownPrivilege"') do (
-	echo %%b | findstr /C:"S-1-5-32-544" >nul
+
+for /F "tokens=1-3 delims=," %%a in ('type .\module\tmp\securityPolicy.txt ^| find /i "SeRemoteShutdownPrivilege"') do (
+	echo %%a | findstr /C:"SeRemoteShutdownPrivilege = *S-1-5-32-544"
 	if errorlevel 1 (
 		set "flag=1"
-	)
+	) else (
 	rem 첫 번째 유저가 S-1-5-32-544가 아니면 취약
 
-	echo %%c | findstr /C:"S" > nul
-	if not errorlevel 1 (
+
+	if "%%b" NEQ "" (
 		set "flag=1"
 	)
-	rem 두 번째 유저에 S 문자가 들어있으면 취약
+	rem 두 번째 유저가 있으면 취약
+
 )
+
+
 
 if !flag! EQU 1 (
 	echo 	→ 취약 ^(Administrators^(S-1-5-32-544^)만 존재하지 않습니다^)
