@@ -1,6 +1,6 @@
 @echo off
 echo ###################################################################################
-echo [W68] 서비스 관리 - 예약된 작업에 의심스러운 령이 등록되어 있는지 점검
+echo [W68] 서비스 관리 - 예약된 작업에 의심스러운 명령이 등록되어 있는지 점검
 echo.
 
 echo ■ 진단 기준
@@ -11,16 +11,16 @@ echo.
 echo.
 
 echo ■ 진단 결과　
-net users | find /v "명령을 잘 실행했습니다."
-rem "명령을 잘 실행했습니다." 문자만 빼고 출력
+schtasks
 echo 	→ 주의 ^(판단 불가^)
 echo.
 echo.
 
 echo ■ 조치 방안
-echo 	Step1^) 시작 -^> 실행 -^> cmd 입력
-echo 	Step2^) cmd 창에서 C:\>at 명령어를 실행하여 확인
-echo    2012, 2016, 2019 는 schtasks 명령어로 확인
+echo 	Step1^) 시작 -^> 설정 -^> 제어판 -^> 관리 도구 -^> 작업 스케줄러에서 확인
+echo             또는 schtasks 명령어로 확인
+echo 	Step2^) 등록된 예약 작업을 선택하여 상세내역 확인
+echo 	Step3^) 불필요한 파일 존재 시 삭제  
 call %CHK_FILE% WARN %1
 echo.
 echo.

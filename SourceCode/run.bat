@@ -181,8 +181,22 @@ rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 
 ) else (
 	if /i %choice% == ALL (
-		echo [전체 진단]
-		rem 입력 값이 ALL이면 [전체 진단]을 의미함.
+		for /L %%A in (1,1,9) do (
+			call %CHK_FILE% TOTAL
+			call "%SCR_PATH%\W0%%A.bat" %%A > "%TMP_PATH%\LOG_TEMP"
+			rem 진단 스크립트를 실행하고, LOG_TEMP 파일로 저장
+			type "%TMP_PATH%\LOG_TEMP"
+			type "%TMP_PATH%\LOG_TEMP" >> ".\log\%logFileName%"
+			rem LOG_TEMP 파일을 출력하고, log 파일로 병합 
+		)
+		for /L %%A in (10,1,68) do (
+			call %CHK_FILE% TOTAL
+			call "%SCR_PATH%\W%%A.bat" %%A > "%TMP_PATH%\LOG_TEMP"
+			rem 진단 스크립트를 실행하고, LOG_TEMP 파일로 저장
+			type "%TMP_PATH%\LOG_TEMP"
+			type "%TMP_PATH%\LOG_TEMP" >> ".\log\%logFileName%"
+			rem LOG_TEMP 파일을 출력하고, log 파일로 병합 
+		)
 	) else (
 
 		if /i %choice% == EXIT (
@@ -226,5 +240,5 @@ rem LOG_TEMP 파일을 출력하고, log 파일로 병합
 REM del /F /Q "%TMP_PATH%\*" > NUL
 rem 임시로 생성한 정책 및 설정 파일을 모두 강제로(/F) 묻지 않고(/Q) 지워버린다.
 pause
-
+endlocal
 goto start

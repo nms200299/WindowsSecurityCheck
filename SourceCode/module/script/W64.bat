@@ -23,9 +23,11 @@ echo 	step3^) 필터 추가 -^> UrlScan 3.1 - "C:\Windows\System32\inetsrv\urlscan\u
 echo 	step4^) urlcsan.ini 파일^(C:\Windows\System32\inetsrv\urlscan\urlscan.ini^)내 해당 값 변경
 echo 	        - RemotesserverHeader=1
 echo            - AllowDotInPath=1
+echo.
 echo   - FTP
 echo 	step1^) IIS 관리자 -^> FTP 메시지 -^> 기본 배너 숨기기 설정
 echo   - SMTP
+echo.
 echo 	step1^) IIS 관리자 -^> 서버 개체 우클릭 -^> 메타베이스 직접 편집 허용 설정
 echo 	step2^) ^<IIsSmtpServerLocation="/LM/SmtpSvc/1"^>에 ConnectResponse 속성 값을 추가해 SMTP 배너 변경 가능
 call %CHK_FILE% WARN %1
