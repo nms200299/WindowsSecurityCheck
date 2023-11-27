@@ -1,0 +1,1 @@
+   Step3) 시작 -> 실행 -> SERVICES.MSC Service 또는, SNMP 서비스 -> 속성 -> '일반' 탭에서 “시작 유형”을 “사용 안 함”으로 설정한 후, SNMP 서비스 중지
