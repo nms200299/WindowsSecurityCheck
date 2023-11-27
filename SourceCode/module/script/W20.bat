@@ -10,7 +10,7 @@ echo.
 echo.
 
 echo ■ 진단 결과
-set "filePath=C:\inetpub\wwwroot"
+set "filePath=%IIS_PATH%"
 set "option=0"
 set "flag=0"
 

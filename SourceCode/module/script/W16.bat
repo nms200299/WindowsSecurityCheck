@@ -10,7 +10,7 @@ echo.
 echo.
 
 echo ■ 진단 결과　
-set dirPath=C:\inetpub\wwwroot
+set dirPath=%IIS_PATH%
 
 if exist %dirPath% (
     set flag=0

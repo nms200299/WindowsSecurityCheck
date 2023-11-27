@@ -10,19 +10,21 @@ echo.
 echo.
 
 echo ■ 진단 결과
-if exist "C:\inetpub\scripts\" (
-	icacls C:\inetpub\scripts\ | findstr /C:"Everyone"
+set "filePath=%IIS_PATH%"
+
+if exist "%filePath%" (
+	icacls %filePath% | findstr /C:"Everyone"
 	if errorlevel 1 (
     	echo    → 양호 ^(기본 CGI 디렉토리의 Everyone 그룹이 존재하지 않음^)
 		goto SAFE
 	) else (
-		icacls C:\inetpub\scripts\ | findstr /C:"Everyone" | findstr /C:"F)" >nul
+		icacls %filePath% | findstr /C:"Everyone" | findstr /C:"F)" >nul
 		rem Everyone 그룹에 모든 권한이 있는지 확인
 		if errorlevel 1 (
-			icacls C:\inetpub\scripts\ | findstr /C:"Everyone" | findstr /C:"M)" >nul
+			icacls %filePath% | findstr /C:"Everyone" | findstr /C:"M)" >nul
 			rem Everyone 그룹에 수정 권한이 있는지 확인
 			if errorlevel 1 (
-				icacls C:\inetpub\scripts\ | findstr /C:"Everyone" | findstr /C:"W)" >nul
+				icacls %filePath% | findstr /C:"Everyone" | findstr /C:"W)" >nul
 				rem Everyone 그룹에 쓰기 권한이 있는지 확인
 				if errorlevel 1 (
 					echo    → 양호 ^(기본 CGI 디렉토리의 Everyone 그룹 권한이 양호함^)

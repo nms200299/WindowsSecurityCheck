@@ -9,7 +9,7 @@ echo.
 echo.
 
 echo ■ 진단 결과
-set "filePath=C:\inetpub\ftproot"
+set "filePath=%FTP_PATH%"
 set "flag=0"
 
 

@@ -10,7 +10,8 @@ echo.
 echo.
 
 echo ■ 진단 결과
-set "filePath=C:\inetpub\wwwroot\web.config"
+echo %IIS_PATH%
+set "filePath=%IIS_PATH%\web.config"
 
 if exist "%filePath%" (
     type %filePath% | findstr /i /C:"directoryBrowse enabled=\"true\""
@@ -45,7 +46,7 @@ if not exist "%filePath%" (
     )
 
     if not exist "%filePath2%" (
-        echo    → 양호 ^(IIS가 설치되어 있지 않음^)
+        echo    → 양호 ^(web.config 파일이 존재하지 않음^)
         call %CHK_FILE% SAFE %1 
     )
 )

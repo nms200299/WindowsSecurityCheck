@@ -11,13 +11,14 @@ echo.
 echo.
 
 echo ■ 진단 결과
-if exist "C:\inetpub\" (
+set "filePath=%IIS_PATH%"
+if exist "%filePath%" (
 	net user | findstr /C:"nobody" > nul
 	if errorlevel 1 (
 		echo    → 경고 ^(nobody 계정이 존재하지 않음^)
 		goto WARN
 	) else (
-		icacls "C:\inetpub" | findstr /C:"nobody"
+		icacls "%filePath%" | findstr /C:"nobody"
 		if errorlevel 1 (
 			echo    → 경고 ^(웹 프로세스가 nobody 계정으로 구동되고 있지 않음^)
 			goto WARN

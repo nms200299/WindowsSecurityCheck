@@ -159,6 +159,13 @@ echo 0 > "%TMP_PATH%\CHK_WARN_CNT"
 echo 0 > "%TMP_PATH%\CHK_PWN_CNT"
 set "CHK_FILE=.\module\mod_cntChkState.bat"
 
+for /F %%a in (./FTP_PATH.txt) do (
+	set "FTP_PATH=%%a"
+)
+for /F %%a in (./IIS_PATH.txt) do (
+	set "IIS_PATH=%%a"
+)
+
 if "%choice:~0,1%" == "W" (
 rem 입력 값 맨 앞 문자가 W이면 [개별 진단]을 의미함.
 	if "%choice:~2,1%" == "" (
@@ -237,7 +244,7 @@ type "%TMP_PATH%\LOG_TEMP"
 type "%TMP_PATH%\LOG_TEMP" >> .\log\%logFileName%
 rem LOG_TEMP 파일을 출력하고, log 파일로 병합 
 
-REM del /F /Q "%TMP_PATH%\*" > NUL
+del /F /Q "%TMP_PATH%\*" > NUL
 rem 임시로 생성한 정책 및 설정 파일을 모두 강제로(/F) 묻지 않고(/Q) 지워버린다.
 pause
 endlocal

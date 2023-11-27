@@ -10,7 +10,7 @@ echo.
 echo.
 
 echo ■ 진단 결과　
-set dirPath=C:\inetpub\wwwroot
+set dirPath=%IIS_PATH%
 set flag=0
 if exist %dirPath%\web.config (
 	type %dirPath%\web.config | findstr /C:"maxAllowedContentLength=" >nul

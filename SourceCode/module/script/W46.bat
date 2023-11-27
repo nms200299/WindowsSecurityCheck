@@ -11,7 +11,7 @@ echo.
 
 echo ■ 진단 결과
 reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa" /s | find /I "everyoneincludesanonymous" | find "0x0" > nul
-if %errorlevel% NEQ 0 (
+if errorlevel 1 (
 	echo 	→ 취약 ^(취약 : “Everyone 사용 권한을 익명 사용자에게 적용” 정책이 “사용” 으로 되어 있는 경우^)
 	echo.
 	echo.

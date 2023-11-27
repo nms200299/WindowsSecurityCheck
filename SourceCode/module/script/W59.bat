@@ -10,7 +10,7 @@ echo.
 echo.
 
 echo ■ 진단 결과　
-set filePath=C:\inetpub\wwwroot
+set filePath=%IIS_PATH%
 set flag=0
 
 type C:\Windows\System32\inetsrv\config\applicationHost.config | findstr /I /C:"httpErrors errorMode=\"Custom"

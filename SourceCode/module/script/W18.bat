@@ -11,7 +11,7 @@ echo.
 
 echo ■ 진단 결과
 set "configPath=C:\Windows\System32\inetsrv\config\applicationHost.config"
-set "filePath=C:\inetpub\wwwroot"
+set "filePath=%IIS_PATH%"
 set "subModPath=.\module\script\W21-1.bat"
 set "flag=0"
 set "flag1=0"
