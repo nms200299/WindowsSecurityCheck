@@ -17,7 +17,7 @@ for /F "tokens=1-3 delims=," %%a in ('type .\module\tmp\securityPolicy.txt ^| fi
 	echo %%a | findstr /C:"SeRemoteShutdownPrivilege = *S-1-5-32-544"
 	if errorlevel 1 (
 		set "flag=1"
-	) else (
+	)
 	rem 첫 번째 유저가 S-1-5-32-544가 아니면 취약
 
 
