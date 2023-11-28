@@ -20,16 +20,11 @@ for /f "tokens=1" %%a in ('net share') do (
 						if NOT "%%a" == "ADMIN$" (
 							if NOT "%%a" == "명령을" (
 								set "shareDir=%%a"
-								for /f "tokens=1-4" %%a in ('net share %shareDir%') do (
-									if "%%a" == "사용" (
-										if /i "%%c" == "Everyone," (
-											if NOT "%%d" == "없음" (
-												set /a "flag=1"
-												echo %shareDir%	: Everyone 권한
-											)
-										)
-
-									)
+								net share %%a
+								net share %%a | findstr /I /C:"Everyone"
+								if NOT errorlevel 1 (
+									set /a "flag=1"
+									echo 공유 디렉터리 : !shareDir!
 								)
 							) else (
 								goto break

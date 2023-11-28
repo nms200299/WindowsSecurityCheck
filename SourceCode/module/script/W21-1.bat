@@ -56,7 +56,6 @@ if exist %filePath%\web.config (
         )
     ) else (
         echo = 요청 필터링 지역 설정이 존재하지 않음.
-        set "flag1=1"
 
     )
 )
